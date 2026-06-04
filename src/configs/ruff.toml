@@ -1,0 +1,33 @@
+# configs/ruff.toml  — shared ruff config, imported by consuming repos via:
+#   [tool.ruff]
+#   extend = "path/to/configs/ruff.toml"
+# Or, if using the CLI wrapper, this is passed automatically.
+
+line-length = 100
+target-version = "py311"
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "RUF",  # ruff-specific rules
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+]
+ignore = [
+    "E501",  # line too long — handled by formatter
+    "B008",  # do not perform function calls in default args (common in FastAPI)
+]
+
+[lint.isort]
+known-first-party = []   # consuming repos can extend this
+
+[format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true

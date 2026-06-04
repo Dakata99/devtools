@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "devtools"
+version = "0.1.0"
+description = "Shared formatting, linting, and dev tooling for all projects"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "pre-commit>=4.1",
+    "plumbum>=1.8",
+]
+
+[project.scripts]
+dev-lint    = "devtools.cli:lint"
+dev-fmt     = "devtools.cli:format"
+dev-check   = "devtools.cli:check"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/devtools"]
+
+# ── Include config files in the installed package ──────────────────────────
+[tool.hatch.build.targets.wheel.force-include]
+"configs" = "devtools/configs"
+
+# ── Self-dogfooding: this repo lints itself with its own config ─────────────
+[tool.ruff]
+extend = "configs/ruff.toml"
+
+[tool.mypy]
+files = ["src"]
