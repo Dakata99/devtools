@@ -23,10 +23,6 @@ dev-check   = "devtools.cli:check"
 [tool.hatch.build.targets.wheel]
 packages = ["src/devtools"]
 
-# ── Include config files in the installed package ──────────────────────────
-[tool.hatch.build.targets.wheel.force-include]
-"configs" = "devtools/configs"
-
 # ── Self-dogfooding: this repo lints itself with its own config ─────────────
 [tool.ruff]
 extend = "configs/ruff.toml"
