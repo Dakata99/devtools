@@ -7,7 +7,6 @@ from pathlib import Path
 
 from devtools import get_config_path
 
-
 BASE_CONFIG_TARGET = Path(".mkdocs.base.yml")
 
 
