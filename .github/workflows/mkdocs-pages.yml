@@ -1,0 +1,74 @@
+name: Reusable MkDocs Pages
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        default: "3.12"
+
+      config-file:
+        type: string
+        default: "mkdocs.yml"
+
+      site-dir:
+        type: string
+        default: "site"
+
+      install-command:
+        type: string
+        default: "uv sync --all-extras --dev"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout consuming repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install Python
+        run: uv python install ${{ inputs.python-version }}
+
+      - name: Install dependencies
+        run: ${{ inputs.install-command }}
+
+      - name: Sync shared MkDocs config
+        run: uv run dev-docs-sync
+
+      - name: Build MkDocs site
+        run: >
+          uv run mkdocs build
+          --strict
+          -f "${{ inputs.config-file }}"
+          --site-dir "${{ inputs.site-dir }}"
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.site-dir }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

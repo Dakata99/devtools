@@ -19,6 +19,17 @@ dependencies = [
 dev-lint    = "devtools.cli:lint"
 dev-fmt     = "devtools.cli:format"
 dev-check   = "devtools.cli:check"
+docs-sync   = "devtools.docs:sync"
+docs-build  = "devtools.docs:build"
+docs-serve  = "devtools.docs:serve"
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.27",
+    "pymdown-extensions>=10.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/devtools"]

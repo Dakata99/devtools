@@ -1,0 +1,23 @@
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+plugins:
+  search: {}
+
+markdown_extensions:
+  admonition: {}
+  attr_list: {}
+  def_list: {}
+  tables: {}
+  toc:
+    permalink: true
+  pymdownx.details: {}
+  pymdownx.superfences: {}
+  pymdownx.inlinehilite: {}
+  pymdownx.snippets: {}
