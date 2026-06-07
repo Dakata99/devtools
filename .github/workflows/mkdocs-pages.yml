@@ -46,7 +46,7 @@ jobs:
         run: ${{ inputs.install-command }}
 
       - name: Sync shared MkDocs config
-        run: uv run dev-docs-sync
+        run: uv run docs-sync
 
       - name: Build MkDocs site
         run: >
